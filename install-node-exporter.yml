@@ -4,10 +4,18 @@
   gather_facts: no
 
   tasks:
+  - name: Check if node_exporter.service is already running 
+    shell: systemctl status node_exporter.service
+    register: node_exporter_status
+    ignore_errors: yes
+    no_log: true
+    check_mode: no
+
   - name: Copy the node-exporter package to switch
     copy:
       src: node_exporter-1.1.2.linux-amd64.tar.gz
       dest: /tmp/node_exporter-1.1.2.linux-amd64.tar.gz
+    when: node_exporter_status.rc != 0
 
   - name: add node_exporter user
     user:
@@ -26,11 +34,14 @@
       - 'systemctl daemon-reload'
  #     - 'rm -rf /tmp/node_exporter-1.1.2.linux-amd64.tar.gz /tmp/node_exporter-1.1.2.linux-amd64'
     become: yes
+    when: node_exporter_status.rc != 0
+
   - name: Copy config file
     copy:
       src: node_exporter.service
       dest: /etc/systemd/system/node_exporter.service
     become: yes
+    when: node_exporter_status.rc != 0
   - name: Make sure a node_exporter service is enabled and running
     systemd:
       state: started

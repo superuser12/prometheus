@@ -4,7 +4,6 @@ ansible_ssh_pass=CumulusLinux!
 ansible_become_pass=CumulusLinux!
 
 [switches]
-leaf11 ansible_host=192.168.3.93
 border01
 border02
 spine01
