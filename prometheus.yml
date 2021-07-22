@@ -1,0 +1,73 @@
+global:
+  scrape_interval:     15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+  # scrape_timeout is set to the global default (10s).
+
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets:
+      # - alertmanager:9093
+
+rule_files:
+  # - "first_rules.yml"
+  # - "second_rules.yml"
+
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: 'prometheus'
+
+    # metrics_path defaults to '/metrics'
+    # scheme defaults to 'http'.
+
+    static_configs:
+    - targets: ['localhost:9090']
+
+  - job_name: 'border01'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['192.168.200.63:9100']
+  - job_name: 'border02'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['192.168.200.64:9100']
+  - job_name: 'spine01'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['192.168.200.21:9100']
+  - job_name: 'spine02'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['192.168.200.22:9100']
+  - job_name: 'spine03'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['192.168.200.23:9100']
+  - job_name: 'spine04'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['192.168.200.24:9100']
+  - job_name: 'leaf01'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['192.168.200.11:9100']
+  - job_name: 'leaf02'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['192.168.200.12:9100']
+  - job_name: 'leaf03'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['192.168.200.13:9100']
+  - job_name: 'leaf04'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['192.168.200.14:9100']
+  - job_name: 'fw1'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['192.168.200.61:9100']
+  - job_name: 'fw2'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['192.168.200.62:9100']
